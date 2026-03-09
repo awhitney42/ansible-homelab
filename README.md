@@ -14,17 +14,11 @@ Ansible playbooks for managing a Raspberry Pi homelab cluster (pi1, pi2, pi3).
 
 - Ansible installed on the control machine
 - SSH access to all Pi hosts with sudo privileges
-- Run the setup script to pull required roles:
+
+Install required roles and collections:
 
 ```bash
-bash setup.sh
-```
-
-This clones [geerlingguy/ansible-role-docker](https://github.com/geerlingguy/ansible-role-docker) into `roles/`.
-
-Install required Ansible collections:
-
-```bash
+ansible-galaxy install -r requirements.yml
 ansible-galaxy collection install community.docker
 ```
 
@@ -61,8 +55,28 @@ Network configuration uses a separate inventory:
 ansible-playbook -i inventory-network.yml playbook-network.yml
 ```
 
+## Secrets
+
+The MariaDB root password is stored in an Ansible Vault-encrypted file:
+
+```
+group_vars/mariadbhosts/vault.yml
+```
+
+Encrypt it before committing:
+
+```bash
+ansible-vault encrypt group_vars/mariadbhosts/vault.yml
+```
+
+Run vault-encrypted playbooks with:
+
+```bash
+ansible-playbook -i inventory.yml playbook-mariadb.yml --ask-vault-pass
+```
+
 ## Notes
 
-- The MariaDB playbook uses a default password — update it before running in production.
 - `playbook-modbus.yml` is incomplete (no target hosts defined).
 - Initial setup assumes hosts are reachable via DHCP on the 192.168.1.x network; after running `playbook-network.yml` they migrate to static 10.0.0.x addresses.
+- Update `static_gateway` in `inventory-network.yml` to match your actual cluster gateway.
