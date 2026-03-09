@@ -1,0 +1,6 @@
+- name: Reboot Cluster
+  hosts: dockerhosts
+  become: true
+  tasks:
+   - name: Issue reboot command.
+     ansible.builtin.shell: "sudo shutdown -r +1"
