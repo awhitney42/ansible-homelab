@@ -1,0 +1,11 @@
+- name: Install Python Packages
+  hosts: pythonhosts
+  become: true
+  tasks:
+   - name: Update apt cache
+     apt:
+       update_cache: yes
+   - name: Install pip3
+     apt:
+       name: python3-pip
+       state: present 

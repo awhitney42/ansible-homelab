@@ -1,0 +1,16 @@
+- name: Install NodeJS
+  hosts: nodejshosts
+  become: true
+  tasks:
+   - name: Install NodeJS and NPM
+     apt:
+       name:
+         - nodejs
+         - npm
+       state: present
+       update_cache: yes
+   - name: Install MySQL client
+     apt:
+       name: default-mysql-client
+       state: present
+         

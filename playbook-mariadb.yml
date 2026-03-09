@@ -1,0 +1,29 @@
+- name: Install MariaDB Docker image
+  hosts: mariadbhosts
+  become: true
+  tasks:
+   - name: Create a network if it doesn't exist
+     community.docker.docker_network:
+       name: my_network
+       state: present
+   - name: Ensure MariaDB container is running
+     community.docker.docker_container:
+       name: mariadb_container
+       image: mariadb:latest
+       state: started
+       ports:
+         - "3306:3306"
+       env:
+         MYSQL_ROOT_PASSWORD: "DEFAULT ROOT PASSWORD GOES HERE"
+       volumes:
+         - /var/lib/mysql:/var/lib/mysql # This maps the host directory to the container's data directory
+       restart_policy: always
+       networks:
+         - name: my_network
+   - name: Update apt cache
+     apt:
+       update_cache: yes
+   - name: Install MySQL client
+     apt:
+       name: default-mysql-client
+       state: present

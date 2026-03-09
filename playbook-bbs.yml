@@ -1,0 +1,11 @@
+- name: Install Petscii BBS
+  hosts: bbshosts
+  become: true
+  tasks:
+   - name: Install Maven and Java
+     apt:
+       name:
+         - maven
+         - openjdk-21
+       state: present
+       update_cache: yes

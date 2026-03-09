@@ -1,0 +1,6 @@
+- name: Shutdown Cluster
+  hosts: dockerhosts
+  become: true
+  tasks:
+   - name: Issue shutdown command.
+     ansible.builtin.shell: "sudo shutdown -h +1"

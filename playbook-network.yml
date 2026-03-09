@@ -1,0 +1,35 @@
+- name: Configure Networking
+  hosts: networkhosts
+  become: true
+  tasks:
+   - name: Print IP address
+     debug:
+       var: static_addr
+   - name: Configured wired interface
+     ansible.builtin.command: "nmcli c mod 'Wired connection 1' ipv4.addresses {{static_addr}}/24 ipv4.method manual"
+   - name: Restart wired interface
+     ansible.builtin.shell: "nmcli c down 'Wired connection 1' && nmcli c up 'Wired connection 1'"
+   - name: Configure dhcpd.conf
+     copy:
+       dest: "/etc/dhcpd.conf"
+       content: |
+         interface eth0
+         static ip_address={{static_addr}}/24
+         static routers={{static_addr}}
+         metric 300
+         
+         interface wlan0
+         metric 200
+   - name: Remove entries in /etc/hosts
+     ansible.builtin.blockinfile:
+       path: /etc/hosts
+       marker: '{mark} ANSIBLE MANAGED BLOCK'
+       block: ''
+   - name: Add entries to /etc/hosts
+     ansible.builtin.blockinfile:
+       path: /etc/hosts
+       marker: '{mark} ANSIBLE MANAGED BLOCK'
+       block: |
+         10.0.0.1 pi1
+         10.0.0.2 pi2
+         10.0.0.3 pi3

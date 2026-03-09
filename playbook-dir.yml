@@ -1,0 +1,11 @@
+- name: Install MariaDB Docker image
+  hosts: mariadbhosts
+  become: true
+  tasks:
+    - name: Create a data directory if it does not exist
+      ansible.builtin.file:
+        path: /var/lib/mysql
+        state: directory
+        owner: root
+        group: root
+        mode: 0755

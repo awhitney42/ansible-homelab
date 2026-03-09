@@ -1,0 +1,11 @@
+networkhosts:
+  hosts:
+    pi1:
+      ansible_host: 192.168.1.94
+      static_addr: 10.0.0.1
+    pi2:
+      ansible_host: 192.168.1.118
+      static_addr: 10.0.0.2
+    pi3:
+      ansible_host: 192.168.1.156
+      static_addr: 10.0.0.3

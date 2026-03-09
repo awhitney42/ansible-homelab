@@ -1,0 +1,16 @@
+- name: Install Modbus and RS485 Tools
+  hosts: 
+  become: true
+  tasks:
+   - name: Install Python Serial Packages
+     apt:
+       name:
+         - nodejs
+         - npm
+       state: present
+       update_cache: yes
+   - name: Install MySQL client
+     apt:
+       name: default-mysql-client
+       state: present
+         
