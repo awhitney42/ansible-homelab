@@ -3,7 +3,12 @@
   become: true
   vars:
     docker_network: custom_network
+    mariadb_version: 11.4
   tasks:
+    - name: include vault
+      ansible.builtin.include_vars:
+        file: group_vars/mariadbhosts/vault.yml
+
     - name: Create a network if it doesn't exist
       community.docker.docker_network:
         name: "{{ docker_network }}"
@@ -12,7 +17,7 @@
     - name: Ensure MariaDB container is running
       community.docker.docker_container:
         name: mariadb_container
-        image: mariadb:11.4
+        image: mariadb:{{mariadb_version}}
         state: present
         recreate: true
         ports:
