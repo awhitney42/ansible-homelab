@@ -1,0 +1,2 @@
+# Encrypt this file with: ansible-vault encrypt group_vars/mariadbhosts/vault.yml
+mariadb_root_password: "changeme"
