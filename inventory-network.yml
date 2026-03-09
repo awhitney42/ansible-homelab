@@ -1,4 +1,6 @@
 networkhosts:
+  vars:
+    static_gateway: 0.0.0.0  # Update to match your actual cluster gateway
   hosts:
     pi1:
       ansible_host: 192.168.1.94
