@@ -1,6 +1,5 @@
 - name: Docker Install
   hosts: dockerhosts
   become: true
-  become_user: root
   roles:
-   - ansible-role-docker
+    - geerlingguy.docker
